@@ -28,16 +28,28 @@ function Downloader($Path, $Start_Date)
         $Path_3660 = $Path + "\CSV\3660\" + "$($Datum_String)_dht22_sensor_3660.csv"
         $URL_3659 = "http://archive.sensor.community/$($Datum_String)/$($Datum_String)_sds011_sensor_3659.csv"
         $URL_3660 = "http://archive.sensor.community/$($Datum_String)/$($Datum_String)_dht22_sensor_3660.csv"
-        $Status_3659 = invoke-webrequest -Uri $URL_3659 -UseBasicParsing
-        $Status_3660 = invoke-webrequest -Uri $URL_3660 -UseBasicParsing
-
-        if(($Status_3659.StatusCode -eq 200) -and ((Test-Path -Path $Path_3659) -ne $true))
+        try
         {
-            Invoke-WebRequest -Uri $URL_3659 -OutFile $Path_3659 -UseBasicParsing
+            if((Test-Path -Path $Path_3659) -ne $true)
+            {
+                Invoke-WebRequest -Uri $URL_3659 -OutFile $Path_3659 -UseBasicParsing
+            }
         }
-        if(($Status_3660.StatusCode -eq 200) -and ((Test-Path -Path $Path_3660) -ne $true))
+        catch
         {
-            Invoke-WebRequest -Uri $URL_3660 -OutFile $Path_3660 -UseBasicParsing
+            Write-Output "$($Datum_String)_sds011_sensor_3659.csv not found"
+        }
+
+        try
+        {
+            if((Test-Path -Path $Path_3660) -ne $true)
+            {
+                Invoke-WebRequest -Uri $URL_3660 -OutFile $Path_3660 -UseBasicParsing
+            }
+        }
+        catch
+        {
+            Write-Output "$($Datum_String)_dht22_sensor_3660.csv not found"
         }
 
         $Datum = $Datum.AddDays(1)
