@@ -1,4 +1,10 @@
-﻿function Downloader($Path, $Start_Date)
+﻿param(
+  [parameter(Mandatory=$false)]
+  [string]$Path = "$($HOME)\Desktop",
+  [string]$Start_Date = (Get-Date -Date "2015-10-01").ToString("yyyy-MM-dd")
+)
+
+function Downloader($Path, $Start_Date)
 {
     if ((Test-Path -Path "$($Path)\CSV") -eq $false)
     {
@@ -38,4 +44,4 @@
     }
 }
 
-Downloader -Path "C:\Users\rouven.imhoff\Desktop" -Start_Date "2023-01-18" #test
+Downloader -Path $Path -Start_Date $Start_Date
