@@ -33,6 +33,7 @@ function Downloader($Path, $Start_Date)
             if((Test-Path -Path $Path_3659) -ne $true)
             {
                 Invoke-WebRequest -Uri $URL_3659 -OutFile $Path_3659 -UseBasicParsing
+                $File_Counter_3659 += 1
             }
         }
         catch
@@ -45,6 +46,7 @@ function Downloader($Path, $Start_Date)
             if((Test-Path -Path $Path_3660) -ne $true)
             {
                 Invoke-WebRequest -Uri $URL_3660 -OutFile $Path_3660 -UseBasicParsing
+                $File_Counter_3660 += 1
             }
         }
         catch
@@ -54,6 +56,8 @@ function Downloader($Path, $Start_Date)
 
         $Datum = $Datum.AddDays(1)
     }
+    Write-Output "$($File_Counter_3659) Files Downloaded for Sensor 3659"
+    Write-Output "$($File_Counter_3660) Files Downloaded for Sensor 3660"
 }
 
 Downloader -Path $Path -Start_Date $Start_Date
