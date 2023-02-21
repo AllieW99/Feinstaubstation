@@ -7,7 +7,7 @@
 function Downloader($Path, $Start_Date)
 {
     $today = Get-Date
-    $toda_string = $today.ToString("yyyy.MM.dd_HH:mm")
+    $today_string = $today.ToString("yyyy-MM-dd_HH-mm")
     $Datum = Get-Date -Date $Start_Date
     $File_Counter_3659 = 0
     $File_Counter_3660 = 0
