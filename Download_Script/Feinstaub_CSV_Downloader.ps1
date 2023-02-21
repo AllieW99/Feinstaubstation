@@ -6,6 +6,12 @@
 
 function Downloader($Path, $Start_Date)
 {
+    $today = Get-Date
+    $toda_string = $today.ToString("yyyy.MM.dd_HH:mm")
+    $Datum = Get-Date -Date $Start_Date
+    $File_Counter_3659 = 0
+    $File_Counter_3660 = 0
+
     if ((Test-Path -Path "$($Path)\CSV") -eq $false)
     {
         mkdir "$($Path)\CSV"
@@ -18,9 +24,11 @@ function Downloader($Path, $Start_Date)
     {
         mkdir "$($Path)\CSV\3660"
     }
+    if ((Test-Path -Path "$($Path)\CSV\$($today_string)_Download_log.txt") -eq $true)
+    {
+        Clear-Content "$($Path)\CSV\$($today_string)_Download_log.txt"
+    }
 
-    $today = Get-Date
-    $Datum = Get-Date -Date $Start_Date
     while($Datum -le $today)
     {
         $Datum_String = $Datum.ToString("yyyy-MM-dd")
@@ -38,7 +46,7 @@ function Downloader($Path, $Start_Date)
         }
         catch
         {
-            Write-Output "$($Datum_String)_sds011_sensor_3659.csv not found"
+            Write-Output "$($Datum_String)_sds011_sensor_3659.csv not found" >> "$($Path)\CSV\$($today_string)_Download_log.txt"
         }
 
         try
@@ -51,7 +59,7 @@ function Downloader($Path, $Start_Date)
         }
         catch
         {
-            Write-Output "$($Datum_String)_dht22_sensor_3660.csv not found"
+            Write-Output "$($Datum_String)_dht22_sensor_3660.csv not found" >> "$($Path)\CSV\$($today_string)_Download_log.txt"
         }
 
         $Datum = $Datum.AddDays(1)
