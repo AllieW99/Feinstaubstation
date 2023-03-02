@@ -23,7 +23,9 @@ def query_database(timestamp, datatype):
     if datatype == "Luftfeuchtigkeit":
         abfrage = ('SELECT MIN(humidity), MAX(humidity), AVG(humidity) '
                    'FROM Temperatur_Luftdruck '
-                   'WHERE DATE(timestamp) = DATE(\'{}\')').format(timestamp)
+                   'WHERE DATE(timestamp) = DATE(\'{}\') '
+                   'AND humidity > 1 '
+                   'AND humidity < 99').format(timestamp)
 
     con = sqlite3.connect("../Database/Feinstaubprojekt.sqlite")
     cur = con.cursor()
