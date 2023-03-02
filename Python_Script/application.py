@@ -28,7 +28,7 @@ date_entry = ttk.Entry(mainframe, width=10, textvariable=date)
 date_entry.grid(column=1, row=1, sticky=(W, E))
 
 datatype = StringVar()
-datatype_entry = ttk.Combobox(mainframe, textvariable=datatype, values=('Feinstaub P1', 'Feinstaub P2', 'Temperatur', 'Luftfeuchtigkeit'))
+datatype_entry = ttk.Combobox(mainframe, state="readonly", textvariable=datatype, values=('Feinstaub P1', 'Feinstaub P2', 'Temperatur', 'Luftfeuchtigkeit'))
 datatype_entry.grid(column=1, row=2, sticky=(W, E))
 
 minimum = StringVar()
