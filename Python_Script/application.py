@@ -18,7 +18,9 @@ def get_data():
 root = Tk()
 root.title("Feinstaubdaten")
 
-mainframe = ttk.Frame(root, padding="5 5 12 12")
+style = ttk.Style()
+style.configure("TFrame", background="#262626")
+mainframe = ttk.Frame(root, padding="5 5 12 12", style="TFrame")
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
@@ -32,21 +34,21 @@ datatype_entry = ttk.Combobox(mainframe, state="readonly", textvariable=datatype
 datatype_entry.grid(column=1, row=2, sticky=(W, E))
 
 minimum = StringVar()
-ttk.Label(mainframe, textvariable=minimum).grid(column=1, row=3, sticky=E)
+ttk.Label(mainframe, textvariable=minimum, background="#262626", foreground="white").grid(column=1, row=3, sticky=E)
 
 maximum = StringVar()
-ttk.Label(mainframe, textvariable=maximum).grid(column=1, row=4, sticky=E)
+ttk.Label(mainframe, textvariable=maximum, background="#262626", foreground="white").grid(column=1, row=4, sticky=E)
 
 average = StringVar()
-ttk.Label(mainframe, textvariable=average).grid(column=1, row=5, sticky=E)
+ttk.Label(mainframe, textvariable=average, background="#262626", foreground="white").grid(column=1, row=5, sticky=E)
 
 ttk.Button(mainframe, text="Get data", command=get_data).grid(column=2, row=6, sticky=W)
 
-ttk.Label(mainframe, text="Date (YYYY-MM-DD)").grid(column=2, row=1, sticky=W)
-ttk.Label(mainframe, text="Datatype").grid(column=2, row=2, sticky=W)
-ttk.Label(mainframe, text="Minimum").grid(column=2, row=3, sticky=W)
-ttk.Label(mainframe, text="Maximum").grid(column=2, row=4, sticky=W)
-ttk.Label(mainframe, text="Average").grid(column=2, row=5, sticky=W)
+ttk.Label(mainframe, text="Date (YYYY-MM-DD)", background="#262626", foreground="white").grid(column=2, row=1, sticky=W)
+ttk.Label(mainframe, text="Datatype", background="#262626", foreground="white").grid(column=2, row=2, sticky=W)
+ttk.Label(mainframe, text="Minimum", background="#262626", foreground="white").grid(column=2, row=3, sticky=W)
+ttk.Label(mainframe, text="Maximum", background="#262626", foreground="white").grid(column=2, row=4, sticky=W)
+ttk.Label(mainframe, text="Average", background="#262626", foreground="white").grid(column=2, row=5, sticky=W)
 
 
 for child in mainframe.winfo_children():
