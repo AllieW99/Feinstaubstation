@@ -11,7 +11,8 @@ def get_data():
         data_array = query_database(date_value, datatype_value)
         get_graph(date_value, datatype_value)
         graph = PhotoImage(file='graph.png')
-        image.config(image=graph)
+        image.configure(image=graph)
+        image.image = graph
         minimum.set(data_array[0])
         maximum.set(data_array[1])
         average.set(data_array[2])
@@ -48,8 +49,8 @@ ttk.Label(mainframe, textvariable=average, background="#262626", foreground="whi
 
 ttk.Button(mainframe, text="Get data", command=get_data).grid(column=2, row=6, sticky=W)
 
-graph = PhotoImage(file="placeholder.png")
-image = Label(master=mainframe, image=graph)
+placeholder = PhotoImage(file="placeholder.png")
+image = Label(master=mainframe, image=placeholder)
 image.place(x=40, y=25, width=30, height=30)
 
 ttk.Label(mainframe, text="Date (YYYY-MM-DD)", background="#262626", foreground="white").grid(column=2, row=1, sticky=W)
