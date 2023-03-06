@@ -9,28 +9,28 @@ def get_graph(timestamp, datatype):
     einheit = ""
 
     if datatype == "Feinstaub P1":
-        query = (f'SELECT P1, timestamp '
+        query = (f'SELECT P1, TIME(timestamp) '
                  'FROM Feinstaub '
                  'WHERE DATE(timestamp) = DATE(\'{}\')').format(timestamp)
         einheit = " µg/m^3"
         datatype = "P1"
 
     if datatype == "Feinstaub P2":
-        query = (f'SELECT P2, timestamp '
+        query = (f'SELECT P2, TIME(timestamp) '
                  'FROM Feinstaub '
                  'WHERE DATE(timestamp) = DATE(\'{}\')').format(timestamp)
         einheit = " µg/m^3"
         datatype = "P2"
 
     if datatype == "Temperatur":
-        query = ('SELECT temperature, timestamp '
+        query = ('SELECT temperature, TIME(timestamp) '
                  'FROM Temperatur_Luftdruck '
                  'WHERE DATE(timestamp) = DATE(\'{}\')').format(timestamp)
         einheit = " °C"
         datatype = "temperature"
 
     if datatype == "Luftfeuchtigkeit":
-        query = ('SELECT humidity, timestamp '
+        query = ('SELECT humidity, TIME(timestamp) '
                  'FROM Temperatur_Luftdruck '
                  'WHERE DATE(timestamp) = DATE(\'{}\') '
                  'AND humidity > 1 '
@@ -39,6 +39,6 @@ def get_graph(timestamp, datatype):
         datatype = "humidity"
 
     df = pd.read_sql(query, my_conn)
-    plot = df.plot.line(title=datatype, x='timestamp', y=datatype)
+    plot = df.plot.line(title=datatype, x='TIME(timestamp)', y=datatype)
     fig = plot.get_figure()
     fig.savefig("./graph.png")
