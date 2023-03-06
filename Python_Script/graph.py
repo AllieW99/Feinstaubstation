@@ -1,6 +1,6 @@
 import sqlite3
 import pandas as pd
-import matplotlib.pyplot
+import matplotlib  # needed dependency for panda
 
 
 def get_graph(timestamp, datatype):
@@ -39,6 +39,6 @@ def get_graph(timestamp, datatype):
         datatype = "humidity"
 
     df = pd.read_sql(query, my_conn)
-    plot = df.plot.line(title=datatype, x='TIME(timestamp)', y=datatype)
+    plot = df.plot.line(title=datatype + " in " + einheit, x='TIME(timestamp)', y=datatype, fontsize=7, figsize=(4, 2))
     fig = plot.get_figure()
     fig.savefig("./graph.png")

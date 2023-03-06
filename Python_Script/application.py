@@ -50,8 +50,8 @@ ttk.Label(mainframe, textvariable=average, background="#262626", foreground="whi
 ttk.Button(mainframe, text="Get data", command=get_data).grid(column=2, row=6, sticky=W)
 
 placeholder = PhotoImage(file="placeholder.png")
-image = Label(master=mainframe, image=placeholder)
-image.place(x=40, y=25, width=30, height=30)
+image = Label(master=mainframe, image=placeholder, width=400, height=200)
+image.grid(column=0, rowspan=6, row=1, sticky=NW)
 
 ttk.Label(mainframe, text="Date (YYYY-MM-DD)", background="#262626", foreground="white").grid(column=2, row=1, sticky=W)
 ttk.Label(mainframe, text="Datatype", background="#262626", foreground="white").grid(column=2, row=2, sticky=W)
@@ -64,5 +64,4 @@ for child in mainframe.winfo_children():
     child.grid_configure(padx=5, pady=5)
 
 date_entry.focus()
-
 root.mainloop()
