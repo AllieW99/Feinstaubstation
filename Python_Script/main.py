@@ -36,9 +36,14 @@ def query_database(timestamp, datatype):
     cur = con.cursor()
 
     for row in cur.execute(abfrage):
-        returned_data[0] = str(round(row[0], 2)) + einheit
-        returned_data[1] = str(round(row[1], 2)) + einheit
-        returned_data[2] = str(round(row[2], 2)) + einheit
+        try:
+            returned_data[0] = str(round(row[0], 2)) + einheit
+            returned_data[1] = str(round(row[1], 2)) + einheit
+            returned_data[2] = str(round(row[2], 2)) + einheit
+        except TypeError:
+            returned_data[0] = "N/A"
+            returned_data[1] = "N/A"
+            returned_data[2] = "N/A"
 
     con.close()
     return returned_data

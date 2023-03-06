@@ -1,5 +1,6 @@
 import sqlite3
 import pandas as pd
+from PIL import Image
 import matplotlib  # needed dependency for panda
 
 
@@ -37,8 +38,14 @@ def get_graph(timestamp, datatype):
                  'AND humidity < 99').format(timestamp)
         einheit = " %"
         datatype = "humidity"
+    try:
+        df = pd.read_sql(query, my_conn)
+        plot = df.plot.line(title=datatype + " in " + einheit, x='TIME(timestamp)', y=datatype, fontsize=7, figsize=(4, 2))
+        fig = plot.get_figure()
+        fig.savefig("./graph.png")
+    except TypeError:
+        image = Image.open('./placeholder.png')
+        image.save('./graph.png')
+        pass
 
-    df = pd.read_sql(query, my_conn)
-    plot = df.plot.line(title=datatype + " in " + einheit, x='TIME(timestamp)', y=datatype, fontsize=7, figsize=(4, 2))
-    fig = plot.get_figure()
-    fig.savefig("./graph.png")
+    my_conn.close()
