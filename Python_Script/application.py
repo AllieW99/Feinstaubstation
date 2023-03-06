@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from main import query_database
 from graph import get_graph
+from pdf import create_pdf
 
 
 def get_data():
@@ -20,6 +21,15 @@ def get_data():
         pass
 
 
+def export_pdf():
+    date_value = date.get()
+    datatype_value = datatype.get()
+    minimum_value = minimum.get()
+    maximum_value = maximum.get()
+    average_value = average.get()
+    create_pdf(date_value, datatype_value, minimum_value, maximum_value, average_value)
+
+
 root = Tk()
 root.title("Feinstaubdaten")
 
@@ -35,7 +45,8 @@ date_entry = ttk.Entry(mainframe, width=10, textvariable=date)
 date_entry.grid(column=1, row=1, sticky=(W, E))
 
 datatype = StringVar()
-datatype_entry = ttk.Combobox(mainframe, state="readonly", textvariable=datatype, values=('Feinstaub P1', 'Feinstaub P2', 'Temperatur', 'Luftfeuchtigkeit'))
+datatype_entry = ttk.Combobox(mainframe, state="readonly", textvariable=datatype,
+                              values=('Feinstaub P1', 'Feinstaub P2', 'Temperatur', 'Luftfeuchtigkeit'))
 datatype_entry.grid(column=1, row=2, sticky=(W, E))
 
 minimum = StringVar()
@@ -48,6 +59,7 @@ average = StringVar()
 ttk.Label(mainframe, textvariable=average, background="#262626", foreground="white").grid(column=1, row=5, sticky=E)
 
 ttk.Button(mainframe, text="Get data", command=get_data).grid(column=2, row=6, sticky=W)
+ttk.Button(mainframe, text="Export", command=export_pdf).grid(column=1, row=6, sticky=E)
 
 placeholder = PhotoImage(file="placeholder.png")
 image = Label(master=mainframe, image=placeholder, width=400, height=200)
@@ -58,7 +70,6 @@ ttk.Label(mainframe, text="Datatype", background="#262626", foreground="white").
 ttk.Label(mainframe, text="Minimum", background="#262626", foreground="white").grid(column=2, row=3, sticky=W)
 ttk.Label(mainframe, text="Maximum", background="#262626", foreground="white").grid(column=2, row=4, sticky=W)
 ttk.Label(mainframe, text="Average", background="#262626", foreground="white").grid(column=2, row=5, sticky=W)
-
 
 for child in mainframe.winfo_children():
     child.grid_configure(padx=5, pady=5)
