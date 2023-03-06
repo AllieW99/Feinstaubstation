@@ -48,7 +48,8 @@ ttk.Label(mainframe, textvariable=average, background="#262626", foreground="whi
 
 ttk.Button(mainframe, text="Get data", command=get_data).grid(column=2, row=6, sticky=W)
 
-image = Label(master=mainframe)
+graph = PhotoImage(file="placeholder.png")
+image = Label(master=mainframe, image=graph)
 image.place(x=40, y=25, width=30, height=30)
 
 ttk.Label(mainframe, text="Date (YYYY-MM-DD)", background="#262626", foreground="white").grid(column=2, row=1, sticky=W)
