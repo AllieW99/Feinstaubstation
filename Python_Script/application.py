@@ -32,6 +32,10 @@ def export_pdf():
         create_pdf(date_value, datatype_value, minimum_value, maximum_value, average_value, graph)
 
 
+def update_database():
+    return ""
+
+
 root = Tk()
 root.title("Feinstaubdaten")
 
@@ -60,8 +64,9 @@ ttk.Label(mainframe, textvariable=maximum, background="#262626", foreground="whi
 average = StringVar()
 ttk.Label(mainframe, textvariable=average, background="#262626", foreground="white").grid(column=1, row=5, sticky=E)
 
-ttk.Button(mainframe, text="Get data", command=get_data).grid(column=2, row=6, sticky=W)
-ttk.Button(mainframe, text="Export", command=export_pdf).grid(column=1, row=6, sticky=E)
+ttk.Button(mainframe, text="Get data", command=get_data, width=20).grid(column=2, row=6, sticky=W)
+ttk.Button(mainframe, text="Export", command=export_pdf, width=10).grid(column=1, row=6, sticky=W)
+ttk.Button(mainframe, text="Update", command=update_database, width=10).grid(column=1, row=6, sticky=E)
 
 placeholder = PhotoImage(file="placeholder.png")
 image = Label(master=mainframe, image=placeholder, width=400, height=200)
