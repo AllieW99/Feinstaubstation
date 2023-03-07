@@ -27,7 +27,8 @@ def export_pdf():
     minimum_value = minimum.get()
     maximum_value = maximum.get()
     average_value = average.get()
-    create_pdf(date_value, datatype_value, minimum_value, maximum_value, average_value)
+    graph = 'graph.png'
+    create_pdf(date_value, datatype_value, minimum_value, maximum_value, average_value, graph)
 
 
 root = Tk()

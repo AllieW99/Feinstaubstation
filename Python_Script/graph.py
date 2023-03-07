@@ -5,10 +5,8 @@ import matplotlib  # needed dependency for panda
 
 
 def get_graph(timestamp, datatype):
-    my_conn = sqlite3.connect("../Database/Feinstaubprojekt.sqlite")
     query = ""
     einheit = ""
-
     if datatype == "Feinstaub P1":
         query = (f'SELECT P1, TIME(timestamp) '
                  'FROM Feinstaub '
@@ -38,6 +36,9 @@ def get_graph(timestamp, datatype):
                  'AND humidity < 99').format(timestamp)
         einheit = " %"
         datatype = "humidity"
+
+    my_conn = sqlite3.connect("../Database/Feinstaubprojekt.sqlite")
+
     try:
         df = pd.read_sql(query, my_conn)
         plot = df.plot.line(title=datatype + " in " + einheit, x='TIME(timestamp)', y=datatype, fontsize=7, figsize=(4, 2))
