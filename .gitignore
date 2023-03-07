@@ -2,3 +2,4 @@
 Python_Script/Resources/graph.png
 Python_Script/Resources/*.pdf
 venv
+Python_Script/__pycache__
