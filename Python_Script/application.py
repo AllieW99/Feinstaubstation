@@ -64,9 +64,13 @@ ttk.Label(mainframe, textvariable=maximum, background="#262626", foreground="whi
 average = StringVar()
 ttk.Label(mainframe, textvariable=average, background="#262626", foreground="white").grid(column=1, row=5, sticky=E)
 
-ttk.Button(mainframe, text="Get data", command=get_data, width=20).grid(column=2, row=6, sticky=W)
-ttk.Button(mainframe, text="Export", command=export_pdf, width=10).grid(column=1, row=6, sticky=W)
-ttk.Button(mainframe, text="Update", command=update_database, width=10).grid(column=1, row=6, sticky=E)
+style.configure('U.TButton', background='yellow', forground='yellow')
+style.configure('D.TButton', background='green')
+style.configure('E.TButton', background='red')
+
+ttk.Button(mainframe, text="Get data", command=get_data, width=20, style='D.TButton').grid(column=2, row=6, sticky=W)
+ttk.Button(mainframe, text="Export", command=export_pdf, width=10, style='E.TButton').grid(column=1, row=6, sticky=W)
+ttk.Button(mainframe, text="Update", command=update_database, width=10, style='U.TButton').grid(column=1, row=6, sticky=E)
 
 placeholder = PhotoImage(file="placeholder.png")
 image = Label(master=mainframe, image=placeholder, width=400, height=200)
