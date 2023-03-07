@@ -43,10 +43,10 @@ def get_graph(timestamp, datatype):
         df = pd.read_sql(query, my_conn)
         plot = df.plot.line(title=datatype + " in " + einheit, x='TIME(timestamp)', y=datatype, fontsize=7, figsize=(4, 2))
         fig = plot.get_figure()
-        fig.savefig("./graph.png")
+        fig.savefig("Resources/graph.png")
     except TypeError:
-        image = Image.open('./placeholder.png')
-        image.save('./graph.png')
+        image = Image.open('Resources/placeholder.png')
+        image.save('Resources/graph.png')
         pass
 
     my_conn.close()

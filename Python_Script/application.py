@@ -11,7 +11,7 @@ def get_data():
         datatype_value = datatype.get()
         data_array = query_database(date_value, datatype_value)
         get_graph(date_value, datatype_value)
-        graph = PhotoImage(file='graph.png')
+        graph = PhotoImage(file='Resources/graph.png')
         image.configure(image=graph)
         image.image = graph
         minimum.set(data_array[0])
@@ -27,7 +27,7 @@ def export_pdf():
     minimum_value = minimum.get()
     maximum_value = maximum.get()
     average_value = average.get()
-    graph = 'graph.png'
+    graph = 'Resources/graph.png'
     if minimum_value is not None and minimum_value != "" and minimum_value != "N/A":
         create_pdf(date_value, datatype_value, minimum_value, maximum_value, average_value, graph)
 
@@ -72,7 +72,7 @@ ttk.Button(mainframe, text="Get data", command=get_data, width=20, style='D.TBut
 ttk.Button(mainframe, text="Export", command=export_pdf, width=10, style='E.TButton').grid(column=1, row=6, sticky=W)
 ttk.Button(mainframe, text="Update", command=update_database, width=10, style='U.TButton').grid(column=1, row=6, sticky=E)
 
-placeholder = PhotoImage(file="placeholder.png")
+placeholder = PhotoImage(file="Resources/placeholder.png")
 image = Label(master=mainframe, image=placeholder, width=400, height=200)
 image.grid(column=0, rowspan=6, row=1, sticky=NW)
 
