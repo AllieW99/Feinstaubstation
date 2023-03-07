@@ -1,5 +1,6 @@
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm
+import webbrowser
 
 
 def create_pdf(date, datatype, minimum, maximum, average, graph):
@@ -16,3 +17,4 @@ def create_pdf(date, datatype, minimum, maximum, average, graph):
     pdf.drawText(textobject)
     pdf.drawInlineImage(image=graph, x=6 * cm, y=18 * cm)
     pdf.save()
+    webbrowser.open_new(date + "_" + datatype + ".pdf")
