@@ -3,3 +3,4 @@ Python_Script/Resources/graph.png
 Python_Script/Resources/*.pdf
 venv
 Python_Script/__pycache__
+Python_Script/Resources/*Download_log.txt

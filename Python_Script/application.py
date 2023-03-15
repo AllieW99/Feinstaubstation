@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from main import query_database
+from main import update_database
 from graph import get_graph
 from pdf import create_pdf
 
@@ -22,18 +23,26 @@ def get_data():
 
 
 def export_pdf():
-    date_value = date.get()
-    datatype_value = datatype.get()
-    minimum_value = minimum.get()
-    maximum_value = maximum.get()
-    average_value = average.get()
-    graph = 'Resources/graph.png'
-    if minimum_value is not None and minimum_value != "" and minimum_value != "N/A":
-        create_pdf(date_value, datatype_value, minimum_value, maximum_value, average_value, graph)
+    try:
+        date_value = date.get()
+        datatype_value = datatype.get()
+        minimum_value = minimum.get()
+        maximum_value = maximum.get()
+        average_value = average.get()
+        graph = 'Resources/graph.png'
+        if minimum_value is not None and minimum_value != "" and minimum_value != "N/A":
+            create_pdf(date_value, datatype_value, minimum_value, maximum_value, average_value, graph)
+    except:
+        info.set("Export failed")
+        pass
 
 
-def update_database():
-    return ""
+def update_data():
+    try:
+        info.set(update_database())
+    except:
+        info.set("Update failed")
+        pass
 
 
 root = Tk()
@@ -64,17 +73,20 @@ ttk.Label(mainframe, textvariable=maximum, background="#262626", foreground="whi
 average = StringVar()
 ttk.Label(mainframe, textvariable=average, background="#262626", foreground="white").grid(column=1, row=5, sticky=E)
 
+info = StringVar()
+ttk.Label(mainframe, textvariable=info, background="#262626", foreground="red").grid(column=1, columnspan=2, row=6, sticky=W)
+
 style.configure('U.TButton', background='yellow', forground='yellow')
 style.configure('D.TButton', background='green')
 style.configure('E.TButton', background='red')
 
-ttk.Button(mainframe, text="Get data", command=get_data, width=20, style='D.TButton').grid(column=2, row=6, sticky=W)
-ttk.Button(mainframe, text="Export", command=export_pdf, width=10, style='E.TButton').grid(column=1, row=6, sticky=W)
-ttk.Button(mainframe, text="Update", command=update_database, width=10, style='U.TButton').grid(column=1, row=6, sticky=E)
+ttk.Button(mainframe, text="Get data", command=get_data, width=20, style='D.TButton').grid(column=2, row=7, sticky=W)
+ttk.Button(mainframe, text="Export", command=export_pdf, width=10, style='E.TButton').grid(column=1, row=7, sticky=W)
+ttk.Button(mainframe, text="Update", command=update_data, width=10, style='U.TButton').grid(column=1, row=7, sticky=E)
 
 placeholder = PhotoImage(file="Resources/placeholder.png")
 image = Label(master=mainframe, image=placeholder, width=400, height=200)
-image.grid(column=0, rowspan=6, row=1, sticky=NW)
+image.grid(column=0, rowspan=7, row=1, sticky=NW)
 
 ttk.Label(mainframe, text="Date (YYYY-MM-DD)", background="#262626", foreground="white").grid(column=2, row=1, sticky=W)
 ttk.Label(mainframe, text="Datatype", background="#262626", foreground="white").grid(column=2, row=2, sticky=W)
