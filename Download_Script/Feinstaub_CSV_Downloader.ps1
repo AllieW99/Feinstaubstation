@@ -1,14 +1,19 @@
 ﻿param(
   [parameter(Mandatory=$false)]
-  [string]$Path = "$($HOME)\Desktop",
-  [string]$Start_Date = (Get-Date -Date "2015-10-01").ToString("yyyy-MM-dd")
+  [string]$path = "",
+  [string]$Start_Date = (Get-Date -Date "2023-01-01").ToString("yyyy-MM-dd")
 )
 
 function Downloader($Path, $Start_Date)
 {
+    if ($path -eq "")
+    {
+        $path = Join-Path (Split-Path $PSScriptRoot -Parent) "Python_Script\Resources"
+    }
     $today = Get-Date
-    $today_string = $today.ToString("yyyy-MM-dd_HH-mm")
+    $today_string = $today.ToString("yyyy-MM-dd")
     $Datum = Get-Date -Date $Start_Date
+    $log_path = Join-Path (Split-Path $PSScriptRoot -Parent) "Python_Script\Resources"
     $File_Counter_3659 = 0
     $File_Counter_3660 = 0
 
@@ -46,7 +51,7 @@ function Downloader($Path, $Start_Date)
         }
         catch
         {
-            Write-Output "$($Datum_String)_sds011_sensor_3659.csv not found" >> "$($Path)\CSV\$($today_string)_Download_log.txt"
+            Write-Output "$($Datum_String)_sds011_sensor_3659.csv not found" >> "$($log_path)\$($today_string)_Download_log.txt"
         }
 
         try
@@ -59,7 +64,7 @@ function Downloader($Path, $Start_Date)
         }
         catch
         {
-            Write-Output "$($Datum_String)_dht22_sensor_3660.csv not found" >> "$($Path)\CSV\$($today_string)_Download_log.txt"
+            Write-Output "$($Datum_String)_dht22_sensor_3660.csv not found" >> "$($log_path)\$($today_string)_Download_log.txt"
         }
 
         $Datum = $Datum.AddDays(1)
