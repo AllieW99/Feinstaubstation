@@ -4,10 +4,15 @@ from main import query_database
 from main import update_database
 from graph import get_graph
 from pdf import create_pdf
+import re
 
 
 def get_data():
     try:
+        if not re.match("^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$", date.get()):
+            raise ValueError("Invalid date")
+        if datatype.get() == "":
+            raise ValueError("Choose datatype")
         date_value = date.get()
         datatype_value = datatype.get()
         data_array = query_database(date_value, datatype_value)
@@ -18,11 +23,13 @@ def get_data():
         minimum.set(data_array[0])
         maximum.set(data_array[1])
         average.set(data_array[2])
-    except ValueError:
-        info.set("Failed")
+        info.set("Done")
+        root.update()
+    except ValueError as e:
+        info.set(e.args[0])
         root.update()
         pass
-    root.after(3000, info.set(""))
+    root.after(2000, info.set(""))
 
 
 def export_pdf():
@@ -35,11 +42,16 @@ def export_pdf():
         graph = 'Resources/graph.png'
         if minimum_value is not None and minimum_value != "" and minimum_value != "N/A":
             create_pdf(date_value, datatype_value, minimum_value, maximum_value, average_value, graph)
+            info.set("Data exported successfully")
+            root.update()
+        else:
+            info.set("No data to export")
+            root.update()
     except:
         info.set("Export failed")
         root.update()
         pass
-    root.after(3000, info.set(""))
+    root.after(2000, info.set(""))
 
 
 def update_data():
@@ -52,7 +64,7 @@ def update_data():
         info.set("Update failed")
         root.update()
         pass
-    root.after(3000, info.set(""))
+    root.after(2000, info.set(""))
 
 
 root = Tk()
