@@ -54,12 +54,18 @@ def query_database(timestamp, datatype):
 
 
 def update_database():
-    # connect to database
-    conn = sqlite3.connect('../Database/Feinstaubprojekt.sqlite')
-    c = conn.cursor()
+    # paths
+    download_script_path = "../Download_Script/Feinstaub_CSV_Downloader.ps1"
+    download_path = os.path.dirname(os.path.abspath(__file__))
+    download_path = os.path.join(download_path, 'Resources')
+    csv_folder = os.path.join(download_path, 'CSV')
 
     # get the newest date
+    conn = None
     try:
+        conn = sqlite3.connect('../Database/Feinstaubprojekt.sqlite')
+        c = conn.cursor()
+
         c.execute("SELECT MAX(timestamp) FROM Feinstaub")
         last_entry_feinstaub = c.fetchone()[0]
         last_entry_feinstaub = datetime.strptime(last_entry_feinstaub, '%Y-%m-%dT%H:%M:%S')
@@ -75,23 +81,24 @@ def update_database():
         oldest_date = oldest_date.strftime("%Y-%m-%d")
     except Exception as e:
         print(e)
-        return "Update failed"
+        close(conn, csv_folder)
+        return "Connect to database failed"
 
     # Download CSV data
-    download_script_path = "../Download_Script/Feinstaub_CSV_Downloader.ps1"
-    download_path = os.path.dirname(os.path.abspath(__file__))
-    download_path = os.path.join(download_path, 'Resources')
     ps_command = f"powershell.exe {download_script_path} -Path {download_path} -Start_Date {oldest_date}"
     os.system(ps_command)
 
-    csv_folder = download_path
+    if not os.listdir(csv_folder + "\\3659") and not os.listdir(csv_folder + "\\3660"):
+        close(conn, csv_folder)
+        return "Already up to date"
+
     today = datetime.today()
     date = datetime.strptime(oldest_date, "%Y-%m-%d")
 
     # update database
     while date < today:
         date = date.strftime("%Y-%m-%d")
-        path_3659 = csv_folder + "/CSV/3659/" + f"{date}_sds011_sensor_3659.csv"
+        path_3659 = csv_folder + "/3659/" + f"{date}_sds011_sensor_3659.csv"
 
         if os.path.exists(path_3659):
             dataframe = pd.read_csv(path_3659, sep=";")
@@ -109,7 +116,7 @@ def update_database():
 
     while date < today:
         date = date.strftime("%Y-%m-%d")
-        path_3660 = csv_folder + "/CSV/3660/" + f"{date}_dht22_sensor_3660.csv"
+        path_3660 = csv_folder + "/3660/" + f"{date}_dht22_sensor_3660.csv"
 
         if os.path.exists(path_3660):
             dataframe = pd.read_csv(path_3660, sep=";")
@@ -123,12 +130,17 @@ def update_database():
         date = datetime.strptime(date, "%Y-%m-%d")
         date = date + timedelta(days=1)
 
-    # remove downloaded data
+    conn.commit()
+    close(conn, csv_folder)
+    return "Database updated successfully"
+
+
+def close(conn, csv_folder):
     try:
-        shutil.rmtree(download_path + "\CSV")
+        shutil.rmtree(csv_folder)
     except:
         pass
-
-    conn.commit()
-    conn.close()
-    return "Database updated successfully"
+    try:
+        conn.close()
+    except:
+        pass
