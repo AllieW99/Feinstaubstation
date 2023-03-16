@@ -19,7 +19,10 @@ def get_data():
         maximum.set(data_array[1])
         average.set(data_array[2])
     except ValueError:
+        info.set("Failed")
+        root.update()
         pass
+    root.after(3000, info.set(""))
 
 
 def export_pdf():
@@ -34,15 +37,22 @@ def export_pdf():
             create_pdf(date_value, datatype_value, minimum_value, maximum_value, average_value, graph)
     except:
         info.set("Export failed")
+        root.update()
         pass
+    root.after(3000, info.set(""))
 
 
 def update_data():
+    info.set("Loading...")
+    root.update()
     try:
         info.set(update_database())
+        root.update()
     except:
         info.set("Update failed")
+        root.update()
         pass
+    root.after(3000, info.set(""))
 
 
 root = Tk()
@@ -74,7 +84,7 @@ average = StringVar()
 ttk.Label(mainframe, textvariable=average, background="#262626", foreground="white").grid(column=1, row=5, sticky=E)
 
 info = StringVar()
-ttk.Label(mainframe, textvariable=info, background="#262626", foreground="red").grid(column=1, columnspan=2, row=6, sticky=W)
+ttk.Label(mainframe, textvariable=info, background="#262626", foreground="green").grid(column=1, columnspan=2, row=6, sticky=W)
 
 style.configure('U.TButton', background='yellow', forground='yellow')
 style.configure('D.TButton', background='green')
