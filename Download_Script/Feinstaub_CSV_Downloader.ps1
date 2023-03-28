@@ -39,8 +39,18 @@ function Downloader($Path, $Start_Date)
         $Datum_String = $Datum.ToString("yyyy-MM-dd")
         $Path_3659 = $Path + "\CSV\3659\" + "$($Datum_String)_sds011_sensor_3659.csv"
         $Path_3660 = $Path + "\CSV\3660\" + "$($Datum_String)_dht22_sensor_3660.csv"
-        $URL_3659 = "http://archive.sensor.community/$($Datum_String)/$($Datum_String)_sds011_sensor_3659.csv"
-        $URL_3660 = "http://archive.sensor.community/$($Datum_String)/$($Datum_String)_dht22_sensor_3660.csv"
+
+        if ($Datum.Year -eq (Get-Date).Year)
+        {
+            $URL_3659 = "https://archive.sensor.community/$($Datum_String)/$($Datum_String)_sds011_sensor_3659.csv"
+            $URL_3660 = "https://archive.sensor.community/$($Datum_String)/$($Datum_String)_dht22_sensor_3660.csv"
+        }
+        else
+        {
+            $URL_3659 = "https://archive.sensor.community/$($Datum_String.Substring(0, 4))/$($Datum_String)/$($Datum_String)_sds011_sensor_3659.csv"
+            $URL_3660 = "https://archive.sensor.community/$($Datum_String.Substring(0, 4))/$($Datum_String)/$($Datum_String)_dht22_sensor_3660.csv"
+        }
+        
         try
         {
             if((Test-Path -Path $Path_3659) -ne $true)

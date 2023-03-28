@@ -124,7 +124,7 @@ def update_database():
 
             for row in dataframe.itertuples():
                 c.execute(
-                    "INSERT OR IGNORE INTO Temperatur_Luftdruck(timestamp, humidity, temperature) VALUES (?, ?, ?)",
+                    "INSERT OR IGNORE INTO Temperatur_Luftdruck(timestamp, temperature, humidity) VALUES (?, ?, ?)",
                     (row.timestamp, row.temperature, row.humidity))
 
         date = datetime.strptime(date, "%Y-%m-%d")
